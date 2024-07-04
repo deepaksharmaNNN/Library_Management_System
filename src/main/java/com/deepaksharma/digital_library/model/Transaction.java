@@ -1,5 +1,6 @@
 package com.deepaksharma.digital_library.model;
 
+import com.deepaksharma.digital_library.enums.TransactionStatus;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -22,6 +23,11 @@ public class Transaction {
 
     @Column(nullable = false, length = 30, unique = true)
     String transactionId;
+
+    @Enumerated(value = EnumType.STRING)
+    TransactionStatus transactionStatus;
+
+    int settlementAmount;
 
     @ManyToOne
     @JoinColumn
