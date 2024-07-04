@@ -9,6 +9,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.util.Date;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -38,6 +39,9 @@ public class User {
 
     @Enumerated(value = EnumType.STRING)
     UserStatus userStatus;
+
+    @OneToMany(mappedBy = "user")
+    List<Book> books;
 
     @CreationTimestamp
     Date createdOn;

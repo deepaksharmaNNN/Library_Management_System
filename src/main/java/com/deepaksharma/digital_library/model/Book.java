@@ -36,6 +36,10 @@ public class Book {
     @JoinColumn
     Author author;
 
+    @ManyToOne
+    @JoinColumn
+    User user;
+
     @CreationTimestamp
     Date createdOn;
 
