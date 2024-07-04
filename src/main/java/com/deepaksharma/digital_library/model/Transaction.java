@@ -7,7 +7,6 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.util.Date;
-import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -15,20 +14,14 @@ import java.util.List;
 @Builder
 @Entity
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Author {
+public class Transaction {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int id;
 
-    @Column(nullable = false, length = 30)
-    String name;
-
-    @Column(nullable = false, unique = true, length = 50)
-    String email;
-
-    @OneToMany(mappedBy = "author")
-    List<Book> books;
+    @Column(nullable = false, length = 30, unique = true)
+    String transactionId;
 
     @CreationTimestamp
     Date createdOn;
