@@ -7,6 +7,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.util.Date;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -24,6 +25,9 @@ public class Author {
 
     @Column(nullable = false, unique = true, length = 50)
     String email;
+
+    @OneToMany(mappedBy = "author")
+    List<Book> books;
 
     @CreationTimestamp
     Date createdOn;

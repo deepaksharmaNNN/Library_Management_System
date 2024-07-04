@@ -32,6 +32,10 @@ public class Book {
     @Enumerated(value = EnumType.STRING)
     BookType bookType;
 
+    @ManyToOne
+    @JoinColumn
+    Author author;
+
     @CreationTimestamp
     Date createdOn;
 
