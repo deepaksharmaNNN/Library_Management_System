@@ -43,6 +43,9 @@ public class User {
     @OneToMany(mappedBy = "user")
     List<Book> books;
 
+    @OneToMany(mappedBy = "user")
+    List<Transaction> transactions;
+
     @CreationTimestamp
     Date createdOn;
 

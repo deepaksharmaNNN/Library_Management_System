@@ -8,6 +8,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.util.Date;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -39,6 +40,9 @@ public class Book {
     @ManyToOne
     @JoinColumn
     User user;
+
+    @OneToMany(mappedBy = "book")
+    List<Transaction> transactions;
 
     @CreationTimestamp
     Date createdOn;

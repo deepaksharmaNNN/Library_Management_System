@@ -23,6 +23,14 @@ public class Transaction {
     @Column(nullable = false, length = 30, unique = true)
     String transactionId;
 
+    @ManyToOne
+    @JoinColumn
+    Book book;
+
+    @ManyToOne
+    @JoinColumn
+    User user;
+
     @CreationTimestamp
     Date createdOn;
 
