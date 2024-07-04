@@ -1,5 +1,6 @@
 package com.deepaksharma.digital_library.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -28,6 +29,7 @@ public class Author {
     String email;
 
     @OneToMany(mappedBy = "author")
+    @JsonIgnoreProperties(value = "author")
     List<Book> books;
 
     @CreationTimestamp
