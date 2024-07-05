@@ -11,9 +11,12 @@ import com.deepaksharma.digital_library.model.User;
 import com.deepaksharma.digital_library.repository.TransactionRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 @Service
 public class TransactionService {
@@ -27,10 +30,22 @@ public class TransactionService {
     @Autowired
     BookService bookService;
 
+    @Value("${book.maximum.days}")
+    private Integer maximumDays;
+
+    @Value("${book.fine.per.day}")
+    private Integer finePerDay;
+
     public Transaction issueBook(TransactionRequest transactionRequest) {
 
         User user = fetchUser(transactionRequest.getUserEmail());
+        if (user.getUserStatus() == UserStatus.BLOCKED) {
+            throw new TransactionException("User is blocked");
+        }
         Book book = fetchBook(transactionRequest.getBookNo());
+        if (book.getUser() != null) {
+            throw new TransactionException("Book is already issued");
+        }
 
         return issueBook(user, book);
     }
@@ -57,9 +72,6 @@ public class TransactionService {
         if (user.getUserType() != UserType.STUDENT) {
             throw new TransactionException("Only students can issue books");
         }
-        if (user.getUserStatus() == UserStatus.BLOCKED) {
-            throw new TransactionException("User is blocked");
-        }
         return user;
     }
     private Book fetchBook(String bookNo) {
@@ -67,9 +79,51 @@ public class TransactionService {
         if (book == null) {
             throw new TransactionException("Book not found");
         }
-        if (book.getUser() != null) {
-            throw new TransactionException("Book is already issued");
-        }
         return book;
+    }
+
+    @SuppressWarnings("SpringTransactionalMethodCallsInspection")
+    public String returnBook(TransactionRequest transactionRequest) {
+        User user = fetchUser(transactionRequest.getUserEmail());
+        Book book = fetchBook(transactionRequest.getBookNo());
+        if (book.getUser() != user) {
+            throw new TransactionException("Book is not issued to this user");
+        }
+        Transaction transaction = transactionRepository.findByUserEmailAndBookBookNo(user.getEmail(), book.getBookNo());
+        if (transaction == null) {
+            throw new TransactionException("Transaction not found");
+        }
+        int amount = calculateFineAmount(transaction, book);
+        //if amount is negative, it means  we need to return the amount to the user
+        if (amount < 0) {
+            return "Amount of " + Math.abs(amount) + " has been returned to the user";
+        }
+        return "Fine of " + amount + " has been collected from the user";
+
+    }
+    @Transactional
+    protected Integer calculateFineAmount(Transaction transaction, Book book){
+        Long issueDateInTime = transaction.getCreatedOn().getTime();
+        Long currentTime = System.currentTimeMillis();
+        long timeElapsed = currentTime - issueDateInTime;
+        long daysElapsed = TimeUnit.MILLISECONDS.toDays(timeElapsed);
+
+        int amount = 0;
+        if (daysElapsed > maximumDays) {
+            int fine = (int) (daysElapsed - maximumDays) * finePerDay;
+            amount = fine - Math.abs(transaction.getSettlementAmount());
+            transaction.setSettlementAmount(-fine);
+            transaction.setTransactionStatus(TransactionStatus.FINED);
+        }else {
+            transaction.setTransactionStatus(TransactionStatus.RETURNED);
+            amount = Math.abs(transaction.getSettlementAmount());
+            transaction.setSettlementAmount(0);
+        }
+        transaction.setUpdatedOn(new Date());
+        transactionRepository.save(transaction);
+
+        book.setUser(null);
+        bookService.updateBookMetadata(book);
+        return amount;
     }
 }
