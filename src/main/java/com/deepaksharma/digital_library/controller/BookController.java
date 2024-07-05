@@ -17,7 +17,7 @@ public class BookController {
     @Autowired
     BookService bookService;
 
-    @PostMapping
+    @PostMapping("/book") //localhost:8080/books/book
     public ResponseEntity<?> addBook(@RequestBody @Valid AddBookRequest addBookRequest) {
         // Add book
         Book book = bookService.addBook(addBookRequest);
