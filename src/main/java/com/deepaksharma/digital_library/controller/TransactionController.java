@@ -5,6 +5,7 @@ import com.deepaksharma.digital_library.model.Transaction;
 import com.deepaksharma.digital_library.service.TransactionService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,6 +23,6 @@ public class TransactionController {
     public ResponseEntity<Transaction> issueBook(@RequestBody @Valid TransactionRequest transactionRequest) {
         // Issue book
         Transaction createdTransaction = transactionService.issueBook(transactionRequest);
-        return ResponseEntity.ok(createdTransaction);
+        return new ResponseEntity<>(createdTransaction, HttpStatus.OK);
     }
 }

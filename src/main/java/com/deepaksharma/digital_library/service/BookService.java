@@ -32,4 +32,10 @@ public class BookService {
         bookRepository.save(book);
         return book;
     }
+    public Book getBookByBookNo(String bookNo) {
+        return bookRepository.findBookByBookNo(bookNo);
+    }
+    public void updateBookMetadata(Book book) {
+        bookRepository.save(book);
+    }
 }
