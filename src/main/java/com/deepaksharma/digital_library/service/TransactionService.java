@@ -9,6 +9,7 @@ import com.deepaksharma.digital_library.model.Book;
 import com.deepaksharma.digital_library.model.Transaction;
 import com.deepaksharma.digital_library.model.User;
 import com.deepaksharma.digital_library.repository.TransactionRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +31,12 @@ public class TransactionService {
 
         User user = fetchUser(transactionRequest.getUserEmail());
         Book book = fetchBook(transactionRequest.getBookNo());
+
+        return issueBook(user, book);
+    }
+
+    @Transactional
+    protected Transaction issueBook(User user, Book book){
         Transaction transaction = Transaction.builder()
                 .user(user)
                 .book(book)
