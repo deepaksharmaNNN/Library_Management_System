@@ -1,6 +1,7 @@
 package com.deepaksharma.digital_library.service;
 
 import com.deepaksharma.digital_library.dto.TransactionRequest;
+import com.deepaksharma.digital_library.enums.TransactionStatus;
 import com.deepaksharma.digital_library.enums.UserStatus;
 import com.deepaksharma.digital_library.enums.UserType;
 import com.deepaksharma.digital_library.exceptions.TransactionException;
@@ -32,7 +33,8 @@ public class TransactionService {
         Transaction transaction = Transaction.builder()
                 .user(user)
                 .book(book)
-                .transactionId(UUID.randomUUID().toString())
+                .transactionId(UUID.randomUUID().toString().substring(0, 30))
+                .transactionStatus(TransactionStatus.ISSUED)
                 .settlementAmount(-book.getSecurityDeposit())
                 .build();
         transactionRepository.save(transaction);

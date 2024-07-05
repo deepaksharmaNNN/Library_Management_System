@@ -1,6 +1,7 @@
 package com.deepaksharma.digital_library.controller;
 
 import com.deepaksharma.digital_library.dto.TransactionRequest;
+import com.deepaksharma.digital_library.exceptions.TransactionException;
 import com.deepaksharma.digital_library.model.Transaction;
 import com.deepaksharma.digital_library.service.TransactionService;
 import jakarta.validation.Valid;
@@ -20,9 +21,12 @@ public class TransactionController {
     TransactionService transactionService;
 
     @PostMapping("/transaction") //localhost:8080/transactions/transaction
-    public ResponseEntity<Transaction> issueBook(@RequestBody @Valid TransactionRequest transactionRequest) {
-        // Issue book
-        Transaction createdTransaction = transactionService.issueBook(transactionRequest);
-        return new ResponseEntity<>(createdTransaction, HttpStatus.OK);
+    public ResponseEntity<?> issueBook(@RequestBody @Valid TransactionRequest transactionRequest) {
+        try {
+            Transaction transaction = transactionService.issueBook(transactionRequest);
+            return new ResponseEntity<>(transaction, HttpStatus.CREATED);
+        } catch (TransactionException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 }
