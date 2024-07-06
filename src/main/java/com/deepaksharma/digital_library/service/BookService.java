@@ -1,6 +1,7 @@
 package com.deepaksharma.digital_library.service;
 
 import com.deepaksharma.digital_library.dto.AddBookRequest;
+import com.deepaksharma.digital_library.enums.BookType;
 import com.deepaksharma.digital_library.mapper.AuthorMapper;
 import com.deepaksharma.digital_library.mapper.BookMapper;
 import com.deepaksharma.digital_library.model.Author;
@@ -10,6 +11,8 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class BookService {
@@ -37,5 +40,9 @@ public class BookService {
     }
     public void updateBookMetadata(Book book) {
         bookRepository.save(book);
+    }
+
+    public List<Book> getAllBooks(String bookTitle, BookType bookType) {
+        return bookRepository.findBookByFilters(bookTitle, bookType);
     }
 }
