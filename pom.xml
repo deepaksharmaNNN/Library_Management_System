@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.deepaksharma</groupId>
-    <artifactId>Digital_Library</artifactId>
+    <artifactId>Library_Management_System</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>Digital_Library</name>
     <description>Digital_Library</description>
