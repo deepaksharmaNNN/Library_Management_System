@@ -20,7 +20,7 @@ public class UserService {
         user.setUserType(UserType.STUDENT);
         return userRepository.save(user);
     }
-    public User fetchStudentByEmailAddress(String emailAddress) {
-        return userRepository.findByEmail(emailAddress);
+    public User fetchUserByEmail(String email) {
+        return userRepository.findByEmail(email);
     }
 }

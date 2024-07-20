@@ -31,7 +31,7 @@ public class TransactionService {
     BookService bookService;
 
     @Value("${book.maximum.days}")
-    private Integer maximumDays;
+    private Integer validDays;
 
     @Value("${book.fine.per.day}")
     private Integer finePerDay;
@@ -64,8 +64,8 @@ public class TransactionService {
         bookService.updateBookMetadata(book);
         return transaction;
     }
-    private User fetchUser(String email) {
-        User user = userService.fetchStudentByEmailAddress(email);
+    public User fetchUser(String email) {
+        User user = userService.fetchUserByEmail(email);
         if (user == null) {
             throw new TransactionException("User not found");
         }
@@ -113,12 +113,12 @@ public class TransactionService {
     public int getFineAmount(Transaction transaction){
         Long issueDateInTime = transaction.getCreatedOn().getTime();
         Long currentTime = System.currentTimeMillis();
-        long timeElapsed = currentTime - issueDateInTime;
-        long daysElapsed = TimeUnit.MILLISECONDS.toDays(timeElapsed);
+        long timeDifference = currentTime - issueDateInTime;
+        long days = TimeUnit.MILLISECONDS.toDays(timeDifference);
 
         int amount = 0;
-        if (daysElapsed > maximumDays) {
-            int fine = (int) (daysElapsed - maximumDays) * finePerDay;
+        if (days > validDays) {
+            int fine = (int) (days - validDays) * finePerDay;
             amount = fine - Math.abs(transaction.getSettlementAmount());
             transaction.setSettlementAmount(-fine);
             transaction.setTransactionStatus(TransactionStatus.FINED);
