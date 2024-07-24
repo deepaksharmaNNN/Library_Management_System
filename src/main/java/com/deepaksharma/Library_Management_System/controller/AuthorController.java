@@ -19,7 +19,7 @@ public class AuthorController {
 
     @GetMapping("/author") //localhost:8080/authors/author
     public ResponseEntity<?> getAuthor(@RequestParam("email") String email) {
-        Author author = authorService.getAuthorByEmail(email);
+        Author author = authorService.getAuthor(email);
         return new ResponseEntity<>(author, HttpStatus.OK);
     }
 }

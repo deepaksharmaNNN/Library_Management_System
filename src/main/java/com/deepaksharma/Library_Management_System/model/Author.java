@@ -22,14 +22,13 @@ public class Author {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int id;
 
-    @Column(nullable = false, length = 30)
+    @Column(length = 30)
     String name;
 
     @Column(nullable = false, unique = true, length = 50)
     String email;
 
     @OneToMany(mappedBy = "author")
-    @JsonIgnoreProperties(value = "author")
     List<Book> books;
 
     @CreationTimestamp

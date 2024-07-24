@@ -24,7 +24,7 @@ public class BookService {
 
     public Book addBook(@Valid AddBookRequest addBookRequest) {
         // Add book
-        Author author = authorService.getAuthorByEmail(addBookRequest.getAuthorEmail());
+        Author author = authorService.getAuthor(addBookRequest.getAuthorEmail());
         if(author == null){
             author = AuthorMapper.mapToAuthorEntity(addBookRequest);
             authorService.addAuthor(author);

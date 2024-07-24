@@ -11,7 +11,7 @@ public class AuthorService {
     @Autowired
     AuthorRepository authorRepository;
 
-    public Author getAuthorByEmail(String email) {
+    public Author getAuthor(String email) {
         return authorRepository.findByEmail(email);
     }
     public Author addAuthor(Author author) {
