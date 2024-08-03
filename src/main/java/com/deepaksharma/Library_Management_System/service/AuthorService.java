@@ -17,4 +17,12 @@ public class AuthorService {
     public Author addAuthor(Author author) {
         return authorRepository.save(author);
     }
+    public String deleteAuthor(String email){
+        Author author = authorRepository.findByEmail(email);
+        if(author == null){
+            return "No author found with email: "+email;
+        }
+        authorRepository.delete(author);
+        return "Author deleted successfully";
+    }
 }
