@@ -29,6 +29,7 @@ public class Author {
     String email;
 
     @OneToMany(mappedBy = "author")
+    @JsonIgnoreProperties("author")
     List<Book> books;
 
     @CreationTimestamp

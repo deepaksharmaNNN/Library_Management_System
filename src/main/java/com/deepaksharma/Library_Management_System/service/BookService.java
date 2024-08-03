@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class BookService {
@@ -43,5 +44,13 @@ public class BookService {
 
     public List<Book> getAllBooks(String bookTitle, BookType bookType) {
         return bookRepository.findBookByFilters(bookTitle, bookType);
+    }
+    public String deleteBook(String bookNo){
+        Book book = bookRepository.findBookByBookNo(bookNo);
+        if(book == null){
+            return "No book found with bookNo: "+bookNo;
+        }
+        bookRepository.delete(book);
+        return "Book deleted successfully";
     }
 }

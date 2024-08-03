@@ -12,23 +12,30 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController("/books")
+@RestController
+@RequestMapping("/books")
 public class BookController {
 
     @Autowired
     BookService bookService;
 
-    @PostMapping("/book") //localhost:8080/books/book
+    @PostMapping("/book") //http://localhost:8080/books/book
     public ResponseEntity<?> addBook(@RequestBody @Valid AddBookRequest addBookRequest) {
         // Add book
         Book book = bookService.addBook(addBookRequest);
         return new ResponseEntity<>(book, HttpStatus.CREATED);
     }
 
-    @GetMapping("/all") //localhost:8080/books/all
-    public ResponseEntity<List<Book>> getAllBooks(@RequestParam(value = "title", required = false) String bookTitle
+    @GetMapping("/search") //http://localhost:8080/books/search
+    public ResponseEntity<List<Book>> searchAllBooks(@RequestParam(value = "title", required = false) String bookTitle
                                             , @RequestParam(value = "type", required = false) BookType bookType) {
         List<Book> books = bookService.getAllBooks(bookTitle, bookType);
         return new ResponseEntity<>(books, HttpStatus.OK);
     }
+    @DeleteMapping("/book") //http://localhost:8080/books/book
+    public ResponseEntity<?> deleteBook(@RequestParam("bookNo") String bookNo){
+        String response = bookService.deleteBook(bookNo);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
 }

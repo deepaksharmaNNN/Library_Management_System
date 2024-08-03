@@ -17,7 +17,7 @@ public class AuthorController {
     @Autowired
     AuthorService authorService;
 
-    @GetMapping("/author") //localhost:8080/authors/author
+    @GetMapping("/author") //http://localhost:8080/authors/author
     public ResponseEntity<?> getAuthor(@RequestParam("email") String email) {
         Author author = authorService.getAuthor(email);
         return new ResponseEntity<>(author, HttpStatus.OK);

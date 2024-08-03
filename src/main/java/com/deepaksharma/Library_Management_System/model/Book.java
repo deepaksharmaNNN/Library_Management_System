@@ -25,7 +25,7 @@ public class Book {
     @Column(nullable = false, length = 50)
     String bookTitle;
 
-    @Column(nullable = false, length = 10, unique = true)
+    @Column(nullable = false, length = 20, unique = true)
     String bookNo;
 
     int securityDeposit;
