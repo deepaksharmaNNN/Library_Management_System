@@ -1,6 +1,7 @@
 package com.deepaksharma.Library_Management_System.mapper;
 
 import com.deepaksharma.Library_Management_System.dto.AddBookRequest;
+import com.deepaksharma.Library_Management_System.dto.GetAuthorResponse;
 import com.deepaksharma.Library_Management_System.model.Author;
 import lombok.experimental.UtilityClass;
 
@@ -13,4 +14,10 @@ public class AuthorMapper {
                     .email(addBookRequest.getAuthorEmail())
                     .build();
         }
+    public GetAuthorResponse mapToGetAuthorResponse(Author author) {
+        return GetAuthorResponse.builder()
+                .name(author.getName())
+                .email(author.getEmail())
+                .build();
+    }
 }
