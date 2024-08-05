@@ -1,6 +1,7 @@
 package com.deepaksharma.Library_Management_System.service;
 
 import com.deepaksharma.Library_Management_System.dto.AddBookRequest;
+import com.deepaksharma.Library_Management_System.enums.BookStatus;
 import com.deepaksharma.Library_Management_System.enums.BookType;
 import com.deepaksharma.Library_Management_System.mapper.AuthorMapper;
 import com.deepaksharma.Library_Management_System.mapper.BookMapper;
@@ -11,8 +12,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class BookService {
@@ -45,6 +45,16 @@ public class BookService {
     public List<Book> getAllBooks(String bookTitle, BookType bookType) {
         return bookRepository.findBookByFilters(bookTitle, bookType);
     }
+    public Map<BookType, Long> getAvailableBooks() {
+        List<Object[]> results = bookRepository.findDistinctBookTypesWithCountByStatus(BookStatus.AVAILABLE);
+        Map<BookType, Long> bookTypeIntegerMap = new HashMap<>();
+        for(Object[] result : results){
+            BookType bookType = (BookType) result[0];
+            Long count = (Long) result[1];
+            bookTypeIntegerMap.put(bookType, count);
+        }
+        return bookTypeIntegerMap;
+    }
     public String deleteBook(String bookNo){
         Book book = bookRepository.findBookByBookNo(bookNo);
         if(book == null){
@@ -56,4 +66,5 @@ public class BookService {
     public List<BookType> getAvailableCategories() {
         return bookRepository.getAvailableBookTypes();
     }
+
 }

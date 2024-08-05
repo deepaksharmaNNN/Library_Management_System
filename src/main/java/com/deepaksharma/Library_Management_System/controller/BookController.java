@@ -1,6 +1,7 @@
 package com.deepaksharma.Library_Management_System.controller;
 
 import com.deepaksharma.Library_Management_System.dto.AddBookRequest;
+import com.deepaksharma.Library_Management_System.dto.AddBookTypeRequest;
 import com.deepaksharma.Library_Management_System.enums.BookType;
 import com.deepaksharma.Library_Management_System.model.Book;
 import com.deepaksharma.Library_Management_System.service.BookService;
@@ -11,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/books")
@@ -37,6 +39,13 @@ public class BookController {
         String response = bookService.deleteBook(bookNo);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
+    @GetMapping("/available") //http://localhost:8080/books/available
+    public ResponseEntity<Map<BookType, Long>> getAvailableBooks() {
+        Map<BookType, Long> bookTypeIntegerMap = bookService.getAvailableBooks();
+        return new ResponseEntity<>(bookTypeIntegerMap, HttpStatus.OK);
+    }
+
     @GetMapping("/categories") //http://localhost:8080/books/categories
     public ResponseEntity<List<BookType>> getAvailableCategories() {
         List<BookType> bookTypes = bookService.getAvailableCategories();

@@ -1,5 +1,6 @@
 package com.deepaksharma.Library_Management_System.model;
 
+import com.deepaksharma.Library_Management_System.enums.BookStatus;
 import com.deepaksharma.Library_Management_System.enums.BookType;
 import jakarta.persistence.*;
 import lombok.*;
@@ -32,6 +33,9 @@ public class Book {
 
     @Enumerated(value = EnumType.STRING)
     BookType bookType;
+
+    @Enumerated(value = EnumType.STRING)
+    BookStatus bookStatus;
 
     @ManyToOne
     @JoinColumn
