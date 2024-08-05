@@ -37,5 +37,9 @@ public class BookController {
         String response = bookService.deleteBook(bookNo);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
-
+    @GetMapping("/categories") //http://localhost:8080/books/categories
+    public ResponseEntity<List<BookType>> getAvailableCategories() {
+        List<BookType> bookTypes = bookService.getAvailableCategories();
+        return new ResponseEntity<>(bookTypes, HttpStatus.OK);
+    }
 }
