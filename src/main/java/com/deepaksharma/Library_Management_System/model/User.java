@@ -2,6 +2,7 @@ package com.deepaksharma.Library_Management_System.model;
 
 import com.deepaksharma.Library_Management_System.enums.UserStatus;
 import com.deepaksharma.Library_Management_System.enums.UserType;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -41,9 +42,11 @@ public class User {
     UserStatus userStatus;
 
     @OneToMany(mappedBy = "user")
+    @JsonManagedReference
     List<Book> books;
 
     @OneToMany(mappedBy = "user")
+    @JsonManagedReference
     List<Transaction> transactions;
 
     @CreationTimestamp

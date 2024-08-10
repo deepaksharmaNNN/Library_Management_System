@@ -2,6 +2,8 @@ package com.deepaksharma.Library_Management_System.model;
 
 import com.deepaksharma.Library_Management_System.enums.BookStatus;
 import com.deepaksharma.Library_Management_System.enums.BookType;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -39,13 +41,16 @@ public class Book {
 
     @ManyToOne
     @JoinColumn
+    @JsonBackReference
     Author author;
 
     @ManyToOne
     @JoinColumn
+    @JsonBackReference
     User user;
 
     @OneToMany(mappedBy = "book")
+    @JsonManagedReference
     List<Transaction> transactions;
 
     @CreationTimestamp
