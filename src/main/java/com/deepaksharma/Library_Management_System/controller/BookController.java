@@ -31,8 +31,8 @@ public class BookController {
 
     @GetMapping("/search") //http://localhost:8080/books/search
     public ResponseEntity<List<GetBookResponse>> searchAllBooks(@RequestParam(value = "title", required = false) String bookTitle
-                                            , @RequestParam(value = "type", required = false) BookType bookType) {
-        List<GetBookResponse> books = bookService.getAllBooks(bookTitle, bookType);
+                                            , @RequestParam(value = "bookNo", required = false) String bookNo) {
+        List<GetBookResponse> books = bookService.getAllBooks(bookTitle, bookNo);
         return new ResponseEntity<>(books, HttpStatus.OK);
     }
     @DeleteMapping("/book") //http://localhost:8080/books/book

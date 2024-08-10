@@ -43,8 +43,8 @@ public class BookService {
         bookRepository.save(book);
     }
 
-    public List<GetBookResponse> getAllBooks(String bookTitle, BookType bookType) {
-        List<Book> books = bookRepository.findBookByFilters(bookTitle, bookType);
+    public List<GetBookResponse> getAllBooks(String bookTitle, String bookNo) {
+        List<Book> books = bookRepository.findBookByFilters(bookTitle, bookNo);
         List<GetBookResponse> getBookResponses = new ArrayList<>();
         for(Book book : books){
             GetBookResponse getBookResponse = BookMapper.mapToGetBookResponse(book);

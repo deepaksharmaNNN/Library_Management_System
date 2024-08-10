@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface CustomBookRepository {
-    List<Book> findBookByFilters(String bookTitle, BookType bookType);
+    List<Book> findBookByFilters(String bookTitle, String bookNo);
 }

@@ -20,7 +20,7 @@ public class CustomBookRepositoryImpl implements CustomBookRepository{
     EntityManager entityManager;
 
     @Override
-    public List<Book> findBookByFilters(String bookTitle, BookType bookType) {
+    public List<Book> findBookByFilters(String bookTitle, String bookNo) {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Book> criteriaQuery = criteriaBuilder.createQuery(Book.class);
 
@@ -31,8 +31,8 @@ public class CustomBookRepositoryImpl implements CustomBookRepository{
             Predicate titlePredicate = criteriaBuilder.like(bookRoot.get("bookTitle"), "%" + bookTitle + "%");
             predicates.add(titlePredicate);
         }
-        if (bookType != null){
-            Predicate typePredicate = criteriaBuilder.equal(bookRoot.get("bookType"), bookType);
+        if (bookNo != null){
+            Predicate typePredicate = criteriaBuilder.equal(bookRoot.get("bookNo"), bookNo);
             predicates.add(typePredicate);
         }
         Predicate finalPredicate = criteriaBuilder.or(predicates.toArray(new Predicate[0]));
