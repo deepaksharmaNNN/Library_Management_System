@@ -2,6 +2,7 @@ package com.deepaksharma.Library_Management_System.controller;
 
 import com.deepaksharma.Library_Management_System.dto.AddBookRequest;
 import com.deepaksharma.Library_Management_System.dto.AddBookTypeRequest;
+import com.deepaksharma.Library_Management_System.dto.GetBookResponse;
 import com.deepaksharma.Library_Management_System.enums.BookType;
 import com.deepaksharma.Library_Management_System.model.Book;
 import com.deepaksharma.Library_Management_System.service.BookService;
@@ -29,9 +30,9 @@ public class BookController {
     }
 
     @GetMapping("/search") //http://localhost:8080/books/search
-    public ResponseEntity<List<Book>> searchAllBooks(@RequestParam(value = "title", required = false) String bookTitle
+    public ResponseEntity<List<GetBookResponse>> searchAllBooks(@RequestParam(value = "title", required = false) String bookTitle
                                             , @RequestParam(value = "type", required = false) BookType bookType) {
-        List<Book> books = bookService.getAllBooks(bookTitle, bookType);
+        List<GetBookResponse> books = bookService.getAllBooks(bookTitle, bookType);
         return new ResponseEntity<>(books, HttpStatus.OK);
     }
     @DeleteMapping("/book") //http://localhost:8080/books/book

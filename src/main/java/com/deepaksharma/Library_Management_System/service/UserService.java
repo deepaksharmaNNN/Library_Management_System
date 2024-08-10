@@ -8,6 +8,8 @@ import com.deepaksharma.Library_Management_System.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserService {
 
@@ -22,5 +24,9 @@ public class UserService {
     }
     public User fetchUserByEmail(String email) {
         return userRepository.findByEmail(email);
+    }
+
+    public List<User> fetchAllStudents() {
+        return userRepository.findAllByUserType(UserType.STUDENT);
     }
 }

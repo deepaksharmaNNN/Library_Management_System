@@ -1,6 +1,7 @@
 package com.deepaksharma.Library_Management_System.service;
 
 import com.deepaksharma.Library_Management_System.dto.AddBookRequest;
+import com.deepaksharma.Library_Management_System.dto.GetBookResponse;
 import com.deepaksharma.Library_Management_System.enums.BookStatus;
 import com.deepaksharma.Library_Management_System.enums.BookType;
 import com.deepaksharma.Library_Management_System.mapper.AuthorMapper;
@@ -42,8 +43,14 @@ public class BookService {
         bookRepository.save(book);
     }
 
-    public List<Book> getAllBooks(String bookTitle, BookType bookType) {
-        return bookRepository.findBookByFilters(bookTitle, bookType);
+    public List<GetBookResponse> getAllBooks(String bookTitle, BookType bookType) {
+        List<Book> books = bookRepository.findBookByFilters(bookTitle, bookType);
+        List<GetBookResponse> getBookResponses = new ArrayList<>();
+        for(Book book : books){
+            GetBookResponse getBookResponse = BookMapper.mapToGetBookResponse(book);
+            getBookResponses.add(getBookResponse);
+        }
+        return getBookResponses;
     }
     public Map<BookType, Long> getAvailableBooks() {
         List<Object[]> results = bookRepository.findDistinctBookTypesWithCountByStatus(BookStatus.AVAILABLE);
