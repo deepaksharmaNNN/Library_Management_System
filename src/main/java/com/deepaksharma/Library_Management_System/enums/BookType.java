@@ -11,5 +11,6 @@ public enum BookType {
     BIOLOGY,
     PHYSICS,
     CHEMISTRY,
-    FICTION
+    FICTION,
+    OTHER
 }

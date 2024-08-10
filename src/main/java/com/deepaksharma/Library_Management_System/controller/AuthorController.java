@@ -13,7 +13,8 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/authors")
-public class AuthorController {
+public class
+AuthorController {
 
     @Autowired
     AuthorService authorService;

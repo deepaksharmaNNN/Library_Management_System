@@ -22,8 +22,8 @@ public class UserController {
         return new ResponseEntity<>(addedUser, HttpStatus.CREATED);
     }
     @GetMapping("/student") // http://localhost:8080/users/student
-    public ResponseEntity<User> fetchUserByEmail(@RequestParam("email") String email){
+    public ResponseEntity<?> fetchUserByEmail(@RequestParam("email") String email){
         User user = userService.fetchUserByEmail(email);
-        return new ResponseEntity<>(user, HttpStatus.OK);
+        return new ResponseEntity<>(user == null ? "User Not Found" : user, HttpStatus.OK);
     }
 }

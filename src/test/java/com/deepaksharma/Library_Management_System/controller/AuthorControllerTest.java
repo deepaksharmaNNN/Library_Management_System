@@ -28,7 +28,7 @@ public class AuthorControllerTest {
         Mockito.when(authorService.getAuthor(any()))
                         .thenReturn(author);
 
-        ResponseEntity response = authorController.getAuthor("abc@gmail.com");
+        ResponseEntity<?> response = authorController.getAuthor("abc@gmail.com");
         Assertions.assertEquals(author, response.getBody());
     }
 }

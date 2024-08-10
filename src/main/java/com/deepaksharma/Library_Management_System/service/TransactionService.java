@@ -1,6 +1,7 @@
 package com.deepaksharma.Library_Management_System.service;
 
 import com.deepaksharma.Library_Management_System.dto.TransactionRequest;
+import com.deepaksharma.Library_Management_System.enums.BookStatus;
 import com.deepaksharma.Library_Management_System.enums.TransactionStatus;
 import com.deepaksharma.Library_Management_System.enums.UserStatus;
 import com.deepaksharma.Library_Management_System.enums.UserType;
@@ -61,6 +62,7 @@ public class TransactionService {
                 .build();
         transactionRepository.save(transaction);
         book.setUser(user);
+        book.setBookStatus(BookStatus.ISSUED);
         bookService.updateBookMetadata(book);
         return transaction;
     }
