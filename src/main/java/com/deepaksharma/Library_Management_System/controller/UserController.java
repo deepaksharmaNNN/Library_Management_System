@@ -1,6 +1,7 @@
 package com.deepaksharma.Library_Management_System.controller;
 
 import com.deepaksharma.Library_Management_System.dto.AddUserRequest;
+import com.deepaksharma.Library_Management_System.dto.GetUserResponse;
 import com.deepaksharma.Library_Management_System.model.User;
 import com.deepaksharma.Library_Management_System.service.UserService;
 import jakarta.validation.Valid;
@@ -31,8 +32,8 @@ public class UserController {
     }
     //get All Students
     @GetMapping("/students") // http://localhost:8080/users/students
-    public ResponseEntity<?> fetchAllStudents(){
-        List<User> users = userService.fetchAllStudents();
+    public ResponseEntity<List<GetUserResponse>> fetchAllStudents(){
+        List<GetUserResponse> users = userService.fetchAllStudents();
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 }
