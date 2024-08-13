@@ -94,7 +94,11 @@ public class TransactionService {
         if (transaction == null) {
             throw new TransactionException("Transaction not found");
         }
-        int amount = calculateFine(transaction, book);
+        Integer amount = calculateFine(transaction, book);
+        if(transaction.getTransactionStatus() == TransactionStatus.FINED){
+            user.setUserStatus(UserStatus.BLOCKED);
+            userService.updateUserMetaData(user);
+        }
         //if amount is negative, it means  we need to return the amount to the user
         if (amount < 0) {
             return "Amount of " + Math.abs(amount) + " has been returned to the user";
@@ -109,6 +113,7 @@ public class TransactionService {
         transactionRepository.save(transaction);
 
         book.setUser(null);
+        book.setBookStatus(BookStatus.AVAILABLE);
         bookService.updateBookMetadata(book);
         return amount;
     }
@@ -122,11 +127,11 @@ public class TransactionService {
         if (days > validDays) {
             int fine = (int) (days - validDays) * finePerDay;
             amount = fine - Math.abs(transaction.getSettlementAmount());
-            transaction.setSettlementAmount(-fine);
+            transaction.setSettlementAmount(fine);
             transaction.setTransactionStatus(TransactionStatus.FINED);
         }else {
             transaction.setTransactionStatus(TransactionStatus.RETURNED);
-            amount = Math.abs(transaction.getSettlementAmount());
+            amount = transaction.getSettlementAmount();
             transaction.setSettlementAmount(0);
         }
         transaction.setUpdatedOn(new Date());

@@ -3,6 +3,7 @@ package com.deepaksharma.Library_Management_System.service;
 import com.deepaksharma.Library_Management_System.dto.AddUserRequest;
 import com.deepaksharma.Library_Management_System.dto.GetBookResponse;
 import com.deepaksharma.Library_Management_System.dto.GetUserResponse;
+import com.deepaksharma.Library_Management_System.enums.UserStatus;
 import com.deepaksharma.Library_Management_System.enums.UserType;
 import com.deepaksharma.Library_Management_System.mapper.UserMapper;
 import com.deepaksharma.Library_Management_System.model.User;
@@ -36,5 +37,31 @@ public class UserService {
             getUserResponses.add(getUserResponse);
         }
         return getUserResponses;
+    }
+    public void updateUserMetaData(User user) {
+        userRepository.save(user);
+    }
+    public String unblockStudent(String email) {
+        User user = userRepository.findByEmail(email);
+        if(user == null){
+            return "User Not Found";
+        }
+        if(user.getUserStatus() == UserStatus.ACTIVE){
+            return "User Already Unblocked";
+        }
+        if(user.getUserType() != UserType.STUDENT){
+            return "User is not a Student";
+        }
+        //Only unblock student after 45 days
+        if(user.getUserStatus() == UserStatus.BLOCKED){
+            long days = (System.currentTimeMillis() - user.getUpdatedOn().getTime()) / (1000 * 60 * 60 * 24);
+            if(days < 45){
+                return "User can be unblocked after 45 days";
+            }else {
+                user.setUserStatus(UserStatus.ACTIVE);
+                updateUserMetaData(user);
+            }
+        }
+        return "User Unblocked";
     }
 }

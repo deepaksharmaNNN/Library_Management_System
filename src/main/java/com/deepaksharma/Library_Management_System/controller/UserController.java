@@ -36,4 +36,10 @@ public class UserController {
         List<GetUserResponse> users = userService.fetchAllStudents();
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
+    //Unblock Student
+    @PutMapping("/student/unblock") // http://localhost:8080/users/student/unblock
+    public ResponseEntity<?> unblockStudent(@RequestParam("email") String email){
+        String response = userService.unblockStudent(email);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
 }
