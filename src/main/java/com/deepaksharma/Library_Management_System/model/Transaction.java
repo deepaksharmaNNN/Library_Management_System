@@ -16,6 +16,7 @@ import java.util.Date;
 @Builder
 @Entity
 @FieldDefaults(level = AccessLevel.PRIVATE)
+@ToString(exclude = {"book", "user"})
 public class Transaction {
 
     @Id

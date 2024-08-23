@@ -17,6 +17,7 @@ import java.util.List;
 @Builder
 @Entity
 @FieldDefaults(level = AccessLevel.PRIVATE)
+@ToString(exclude = "books")
 public class Author {
 
     @Id

@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
@@ -31,7 +32,7 @@ public class TransactionService {
     @Autowired
     BookService bookService;
 
-    @Value("${book.maximum.days}")
+    @Value("${book.valid.days}")
     private Integer validDays;
 
     @Value("${book.fine.per.day}")
@@ -67,16 +68,14 @@ public class TransactionService {
         return transaction;
     }
     public User fetchUser(String email) {
-        User user = userService.fetchUserByEmail(email);
-        if (user == null) {
-            throw new TransactionException("User not found");
-        }
+        User user = Optional.ofNullable(userService.fetchUserByEmail(email))
+                     .orElseThrow(() -> new TransactionException("User not found"));
         if (user.getUserType() != UserType.STUDENT) {
             throw new TransactionException("Only students can issue books");
         }
         return user;
     }
-    private Book fetchBook(String bookNo) {
+    public Book fetchBook(String bookNo) {
         Book book = bookService.getBookByBookNo(bookNo);
         if (book == null) {
             throw new TransactionException("Book not found");
@@ -123,7 +122,7 @@ public class TransactionService {
         long timeDifference = currentTime - issueDateInTime;
         long days = TimeUnit.MILLISECONDS.toDays(timeDifference);
 
-        int amount = 0;
+        int amount;
         if (days > validDays) {
             int fine = (int) (days - validDays) * finePerDay;
             amount = fine - Math.abs(transaction.getSettlementAmount());

@@ -3,6 +3,7 @@ package com.deepaksharma.Library_Management_System.model;
 import com.deepaksharma.Library_Management_System.enums.BookStatus;
 import com.deepaksharma.Library_Management_System.enums.BookType;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
@@ -19,6 +20,7 @@ import java.util.List;
 @Builder
 @Entity
 @FieldDefaults(level = AccessLevel.PRIVATE)
+@ToString(exclude = {"transactions", "author", "user"})
 public class Book {
 
     @Id
@@ -51,6 +53,7 @@ public class Book {
 
     @OneToMany(mappedBy = "book")
     @JsonManagedReference
+    @JsonIgnoreProperties("transactions")
     List<Transaction> transactions;
 
     @CreationTimestamp
