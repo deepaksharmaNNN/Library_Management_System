@@ -49,11 +49,11 @@ public class TransactionService {
             throw new TransactionException("Book is already issued");
         }
 
-        return issueBook(user, book);
+        return issueBookTransaction(user, book);
     }
 
     @Transactional
-    protected Transaction issueBook(User user, Book book){
+    protected Transaction issueBookTransaction(User user, Book book){
         Transaction transaction = Transaction.builder()
                 .user(user)
                 .book(book)
