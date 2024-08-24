@@ -45,9 +45,27 @@ public class AuthorServiceTest {
                 .id(123)
                 .email("author@gmail.com")
                 .build();
-        Mockito.when(authorService.getAuthor("author@gmail.com")).thenReturn(null);
-        //Act & Assert
-        Assertions.assertNull(authorService.getAuthor("author@gmail.com"));
+        Mockito.when(authorRepository.save(Mockito.any(Author.class))).thenReturn(null);
+        //Act
+        Author actualAuthor = authorService.addAuthor(author);
+        //Assert
+        Assertions.assertNull(actualAuthor);
+        Mockito.verify(authorRepository, Mockito.times(1)).save(author);
     }
 
+    // Test case for addAuthor method checking if author saved successfully
+    @Test
+    public void addAuthor_AuthorSavedSuccessfully_ReturnsCorrectAuthor() throws TransactionException {
+        //Arrange
+        Author author = Author.builder()
+                .id(123)
+                .email("author@gmail.com")
+                .build();
+        Mockito.when(authorRepository.save(Mockito.any(Author.class))).thenReturn(author);
+        //Act
+        Author actualAuthor = authorService.addAuthor(author);
+        //Assert
+        Assertions.assertEquals(author, actualAuthor);
+        Mockito.verify(authorRepository, Mockito.times(1)).save(author);
+    }
 }
