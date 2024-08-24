@@ -1,6 +1,8 @@
 package com.deepaksharma.Library_Management_System.service;
 
+import com.deepaksharma.Library_Management_System.dto.GetAuthorResponse;
 import com.deepaksharma.Library_Management_System.exceptions.TransactionException;
+import com.deepaksharma.Library_Management_System.mapper.AuthorMapper;
 import com.deepaksharma.Library_Management_System.model.Author;
 import com.deepaksharma.Library_Management_System.repository.AuthorRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -12,6 +14,8 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.List;
+
 @Slf4j
 @ExtendWith(MockitoExtension.class)
 public class AuthorServiceTest {
@@ -19,53 +23,142 @@ public class AuthorServiceTest {
     @Mock
     private AuthorRepository authorRepository;
 
+    @Mock
+    private AuthorMapper AuthorMapper;
+
     @InjectMocks
     private AuthorService authorService;
 
     // Test case for getAuthor method checking if author exists
     @Test
-    public void addBook_AuthorExists_ReturnsCorrectAuthor() throws TransactionException {
+    public void getAuthor_AuthorExists_ReturnsCorrectAuthor() throws TransactionException {
         //Arrange
         Author author = Author.builder()
                 .id(123)
                 .email("author@gmail.com")
                 .build();
-        Mockito.when(authorService.getAuthor("author@gmail.com")).thenReturn(author);
+        Mockito.when(authorRepository.findByEmail("author@gmail.com")).thenReturn(author);
         //Act
         Author actualAuthor = authorService.getAuthor("author@gmail.com");
         //Assert
         Assertions.assertEquals(author, actualAuthor);
+        //Verify
+        Mockito.verify(authorRepository, Mockito.times(1)).findByEmail("author@gmail.com");
     }
 
     // Test case for getAuthor method checking if author does not exist
     @Test
-    public void addBook_AuthorDoesNotExist_ReturnsNull() throws TransactionException {
-        //Arrange
+    public void getAuthor_AuthorDoesNotExist_ReturnsNull() throws TransactionException {
         Author author = Author.builder()
                 .id(123)
                 .email("author@gmail.com")
                 .build();
-        Mockito.when(authorRepository.save(Mockito.any(Author.class))).thenReturn(null);
+        Mockito.when(authorRepository.findByEmail("author@gmail.com")).thenReturn(null);
         //Act
-        Author actualAuthor = authorService.addAuthor(author);
+        Author actualAuthor = authorService.getAuthor("author@gmail.com");
         //Assert
-        Assertions.assertNull(actualAuthor);
-        Mockito.verify(authorRepository, Mockito.times(1)).save(author);
+        Assertions.assertEquals(null, actualAuthor);
+        //Verify
+        Mockito.verify(authorRepository, Mockito.times(1)).findByEmail("author@gmail.com");
     }
 
-    // Test case for addAuthor method checking if author saved successfully
+    // Test case for addAuthor method checking if author does not exist
     @Test
-    public void addAuthor_AuthorSavedSuccessfully_ReturnsCorrectAuthor() throws TransactionException {
+    public void addAuthor_AuthorDoesNotExist_ReturnsCorrectAuthor() throws TransactionException {
         //Arrange
         Author author = Author.builder()
                 .id(123)
                 .email("author@gmail.com")
                 .build();
-        Mockito.when(authorRepository.save(Mockito.any(Author.class))).thenReturn(author);
+        Mockito.when(authorRepository.findByEmail("author@gmail.com")).thenReturn(null);
+        Mockito.when(authorRepository.save(author)).thenReturn(author);
         //Act
         Author actualAuthor = authorService.addAuthor(author);
         //Assert
         Assertions.assertEquals(author, actualAuthor);
-        Mockito.verify(authorRepository, Mockito.times(1)).save(author);
+        //Verify
+        Mockito.verify(authorRepository, Mockito.times(1)).findByEmail("author@gmail.com");
     }
+
+    // Test case for addAuthor method checking if author exists
+    @Test
+    public void addAuthor_AuthorExists_ReturnsTransactionException() throws TransactionException {
+        //Arrange
+        Author author = Author.builder()
+                .id(123)
+                .email("author@gmail.com")
+                .build();
+        Mockito.when(authorRepository.findByEmail("author@gmail.com")).thenReturn(author);
+        //Act & Assert
+        Assertions.assertThrows(TransactionException.class, () -> authorService.addAuthor(author));
+        //Verify
+        Mockito.verify(authorRepository, Mockito.times(1)).findByEmail("author@gmail.com");
+    }
+
+    // Test case for deleteAuthor method checking if author exists
+    @Test
+    public void deleteAuthor_AuthorExists_ReturnsSuccessMessage() throws TransactionException {
+        //Arrange
+        Author author = Author.builder()
+                .id(123)
+                .email("author@gmail.com")
+                .build();
+        Mockito.when(authorRepository.findByEmail("author@gmail.com")).thenReturn(author);
+        //Act
+        String actualMessage = authorService.deleteAuthor("author@gmail.com");
+        //Assert
+        Assertions.assertEquals("Author deleted successfully", actualMessage);
+        //Verify
+        Mockito.verify(authorRepository, Mockito.times(1)).findByEmail("author@gmail.com");
+    }
+
+    // Test case for deleteAuthor method checking if author does not exist
+    @Test
+    public void deleteAuthor_AuthorDoesNotExist_ReturnsErrorMessage() throws TransactionException {
+        //Arrange
+        Author author = Author.builder()
+                .id(123)
+                .email("author@gmail.com")
+                .build();
+        Mockito.when(authorRepository.findByEmail("author@gmail.com")).thenReturn(null);
+        //Act
+        String actualMessage = authorService.deleteAuthor("author@gmail.com");
+        //Assert
+        Assertions.assertEquals("No author found with email: "+author.getEmail(), actualMessage);
+        //Verify
+        Mockito.verify(authorRepository, Mockito.times(1)).findByEmail("author@gmail.com");
+    }
+
+    // Test case for getAllAuthors method
+    @Test
+    public void getAllAuthors_ReturnsListOfAuthors() {
+        // Arrange
+        Author author1 = Author.builder()
+                .id(123)
+                .name("author1")
+                .email("author@gmail.com")
+                .build();
+        Author author2 = Author.builder()
+                .id(124)
+                .name("author2")
+                .email("author@example.com")
+                .build();
+
+        GetAuthorResponse response1 = new GetAuthorResponse("author1", "author@gmail.com");
+        GetAuthorResponse response2 = new GetAuthorResponse("author2", "author@example.com");
+
+        Mockito.when(authorRepository.findAll()).thenReturn(List.of(author1, author2));
+
+        // Act
+        List<GetAuthorResponse> actualAuthors = authorService.getAllAuthors();
+
+        // Assert
+        Assertions.assertEquals(List.of(response1, response2), actualAuthors);
+
+        // Verify
+        Mockito.verify(authorRepository, Mockito.times(1)).findAll();
+
+        // No need to verify the static method invocation
+    }
+
 }
