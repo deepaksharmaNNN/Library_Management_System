@@ -2,7 +2,7 @@ package com.deepaksharma.Library_Management_System.service;
 
 import com.deepaksharma.Library_Management_System.exceptions.TransactionException;
 import com.deepaksharma.Library_Management_System.model.Author;
-import com.deepaksharma.Library_Management_System.repository.BookRepository;
+import com.deepaksharma.Library_Management_System.repository.AuthorRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -14,18 +14,15 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 @Slf4j
 @ExtendWith(MockitoExtension.class)
-public class BookServiceTest {
+public class AuthorServiceTest {
 
     @Mock
-    private AuthorService authorService;
-
-    @Mock
-    private BookRepository bookRepository;
+    private AuthorRepository authorRepository;
 
     @InjectMocks
-    private BookService bookService;
+    private AuthorService authorService;
 
-    // Test case for addBook method checking if author exists
+    // Test case for getAuthor method checking if author exists
     @Test
     public void addBook_AuthorExists_ReturnsCorrectAuthor() throws TransactionException {
         //Arrange
@@ -40,7 +37,7 @@ public class BookServiceTest {
         Assertions.assertEquals(author, actualAuthor);
     }
 
-    // Test case for addBook method checking if author does not exist
+    // Test case for getAuthor method checking if author does not exist
     @Test
     public void addBook_AuthorDoesNotExist_ReturnsNull() throws TransactionException {
         //Arrange
@@ -53,5 +50,4 @@ public class BookServiceTest {
         Assertions.assertNull(authorService.getAuthor("author@gmail.com"));
     }
 
-    // Test case for addBook method checking if book exists
 }
