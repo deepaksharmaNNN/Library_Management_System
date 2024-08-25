@@ -49,7 +49,6 @@ public class User {
 
     @OneToMany(mappedBy = "user")
     @JsonManagedReference
-//    @JsonIgnoreProperties("user")
     List<Transaction> transactions;
 
     @CreationTimestamp

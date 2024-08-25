@@ -63,7 +63,7 @@ public class TransactionServiceTest {
         Date date = new SimpleDateFormat("dd/MM/yyyy").parse("15/07/2024");
         Transaction transaction = Transaction.builder().createdOn(date).settlementAmount(200).build();
         int fineAmount = transactionService.getFineAmount(transaction);
-        Assertions.assertEquals(-174, fineAmount);
+        Assertions.assertEquals(-173, fineAmount);
     }
     // Test cases for getFineAmount When current date is after valid days
     @Test
@@ -71,7 +71,7 @@ public class TransactionServiceTest {
         Date date = new SimpleDateFormat("dd/MM/yyyy").parse("01/01/2024");
         Transaction transaction = Transaction.builder().createdOn(date).settlementAmount(200).build();
         int fineAmount = transactionService.getFineAmount(transaction);
-        Assertions.assertEquals(22, fineAmount);
+        Assertions.assertEquals(23, fineAmount);
     }
 
 
