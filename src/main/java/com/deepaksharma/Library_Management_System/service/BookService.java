@@ -70,8 +70,5 @@ public class BookService {
         bookRepository.delete(book);
         return "Book deleted successfully";
     }
-    public List<BookType> getAvailableCategories() {
-        return bookRepository.getAvailableBookTypes();
-    }
 
 }

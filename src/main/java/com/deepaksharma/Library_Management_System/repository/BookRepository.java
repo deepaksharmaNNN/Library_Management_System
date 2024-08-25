@@ -11,8 +11,7 @@ import org.springframework.data.jpa.repository.Query;
 public interface BookRepository extends JpaRepository<Book, Integer>, CustomBookRepository{
     Book findBookByBookNo(String bookNo);
 
-    @Query("SELECT distinct b.bookType FROM Book b")
-    List<BookType> getAvailableBookTypes();
+
 
     @Query("SELECT b.bookType, COUNT(b) FROM Book b WHERE b.bookStatus = :status GROUP BY b.bookType")
     List<Object[]> findDistinctBookTypesWithCountByStatus(BookStatus status);

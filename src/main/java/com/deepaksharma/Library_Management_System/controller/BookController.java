@@ -46,10 +46,4 @@ public class BookController {
         Map<BookType, Long> bookTypeIntegerMap = bookService.getAvailableBooks();
         return new ResponseEntity<>(bookTypeIntegerMap, HttpStatus.OK);
     }
-
-    @GetMapping("/categories") //http://localhost:8080/books/categories
-    public ResponseEntity<List<BookType>> getAvailableCategories() {
-        List<BookType> bookTypes = bookService.getAvailableCategories();
-        return new ResponseEntity<>(bookTypes, HttpStatus.OK);
-    }
 }
