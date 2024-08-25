@@ -24,4 +24,9 @@ public class GetUserResponse {
     UserStatus userStatus;
 
     List<GetBookResponse> books;
+
+    public GetUserResponse(String userName, String userEmail) {
+        this.userName = userName;
+        this.userEmail = userEmail;
+    }
 }

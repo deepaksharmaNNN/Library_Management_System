@@ -1,7 +1,6 @@
 package com.deepaksharma.Library_Management_System.controller;
 
 import com.deepaksharma.Library_Management_System.dto.AddBookRequest;
-import com.deepaksharma.Library_Management_System.dto.AddBookTypeRequest;
 import com.deepaksharma.Library_Management_System.dto.GetBookResponse;
 import com.deepaksharma.Library_Management_System.enums.BookType;
 import com.deepaksharma.Library_Management_System.model.Book;
