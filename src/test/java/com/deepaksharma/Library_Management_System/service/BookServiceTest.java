@@ -60,7 +60,7 @@ public class BookServiceTest {
                 .author(author)
                 .build();
 
-        Mockito.when(authorService.getAuthor("author@gmail.com")).thenReturn(author);
+        Mockito.when(authorService.getAuthorWithBooks("author@gmail.com")).thenReturn(author);
         Mockito.when(bookRepository.save(Mockito.any(Book.class))).thenAnswer(i -> {
             Book savedBook = i.getArgument(0);
             savedBook.setId(1);
@@ -76,7 +76,7 @@ public class BookServiceTest {
         Assertions.assertEquals(book, result);
 
         //Verify
-        Mockito.verify(authorService, Mockito.times(1)).getAuthor("author@gmail.com");
+        Mockito.verify(authorService, Mockito.times(1)).getAuthorWithBooks("author@gmail.com");
         Mockito.verify(bookRepository, Mockito.times(1)).save(Mockito.any(Book.class));
     }
 
@@ -102,7 +102,7 @@ public class BookServiceTest {
                 .bookStatus(BookStatus.AVAILABLE)
                 .author(author)
                 .build();
-        Mockito.when(authorService.getAuthor("author@gmail.com")).thenReturn(null);
+        Mockito.when(authorService.getAuthorWithBooks("author@gmail.com")).thenReturn(null);
         Mockito.when(authorService.addAuthor(Mockito.any(Author.class))).thenAnswer(i -> {
             Author savedAuthor = i.getArgument(0);
             savedAuthor.setId(1);
@@ -128,7 +128,7 @@ public class BookServiceTest {
 
 
         //Verify
-        Mockito.verify(authorService, Mockito.times(1)).getAuthor("author@gmail.com");
+        Mockito.verify(authorService, Mockito.times(1)).getAuthorWithBooks("author@gmail.com");
         Mockito.verify(authorService, Mockito.times(1)).addAuthor(Mockito.any(Author.class));
         Mockito.verify(bookRepository, Mockito.times(1)).save(Mockito.any(Book.class));
     }

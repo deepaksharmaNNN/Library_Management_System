@@ -1,6 +1,6 @@
 package com.deepaksharma.Library_Management_System.controller;
 
-import com.deepaksharma.Library_Management_System.dto.GetAuthorResponse;
+import com.deepaksharma.Library_Management_System.dto.AuthorDTO;
 import com.deepaksharma.Library_Management_System.model.Author;
 import com.deepaksharma.Library_Management_System.service.AuthorService;
 import org.junit.jupiter.api.Assertions;
@@ -22,21 +22,25 @@ import static org.mockito.ArgumentMatchers.any;
 @ExtendWith(MockitoExtension.class)
 public class AuthorControllerTest {
     @Mock
-    AuthorService authorService;
+    private AuthorService authorService;
 
     @InjectMocks
-    AuthorController authorController;
+    private AuthorController authorController;
 
-    // Test for getAuthor_ValidAuthor_ReturnsData
+    // Test for getAuthorWithBooks_ValidAuthor_ReturnsData
     @Test
-    public void getAuthor_ValidAuthor_ReturnsData() {
+    public void getAuthorWithBooks_ValidAuthor_ReturnsData() {
+        // Arrange
         Author author = Author.builder()
-                        .id(1).build();
-        Mockito.when(authorService.getAuthor(any()))
+                        .id(1)
+                        .name("Author").build();
+        Mockito.when(authorService.getAuthorWithBooks(any()))
                         .thenReturn(author);
-
-        ResponseEntity<?> response = authorController.getAuthor("abc@gmail.com");
+        // Act
+        ResponseEntity<?> response = authorController.getAuthorWithBooks("abc@gmail.com");
+        // Assert
         Assertions.assertEquals(author, response.getBody());
+        Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
     }
 
     // Test for addAuthor_ValidAuthor_ReturnsCreated
@@ -73,11 +77,11 @@ public class AuthorControllerTest {
     @Test
     public void getAllAuthors_ValidAuthors_ReturnsListOfAuthors() {
         // Arrange
-        List<GetAuthorResponse> authors = Collections.singletonList(new GetAuthorResponse());
+        List<AuthorDTO> authors = Collections.singletonList(new AuthorDTO());
         Mockito.when(authorService.getAllAuthors())
                         .thenReturn(authors);
         // Act
-        ResponseEntity<List<GetAuthorResponse>> response = authorController.getAllAuthors();
+        ResponseEntity<List<AuthorDTO>> response = authorController.getAllAuthors();
         // Assert
         Assertions.assertEquals(authors, response.getBody());
         Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());

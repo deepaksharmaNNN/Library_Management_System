@@ -28,4 +28,15 @@ public class BookMapper {
                 .bookStatus(book.getBookStatus())
                 .build();
     }
+
+    public Book mapToBook(Book book) {
+        return Book.builder()
+                .bookTitle(book.getBookTitle())
+                .bookNo(book.getBookNo())
+                .securityDeposit(book.getSecurityDeposit())
+                .bookType(book.getBookType())
+                .bookStatus(book.getBookStatus())
+                .build();
+    }
+
 }

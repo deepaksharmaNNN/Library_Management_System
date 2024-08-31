@@ -1,6 +1,6 @@
 package com.deepaksharma.Library_Management_System.controller;
 
-import com.deepaksharma.Library_Management_System.dto.GetAuthorResponse;
+import com.deepaksharma.Library_Management_System.dto.AuthorDTO;
 import com.deepaksharma.Library_Management_System.model.Author;
 import com.deepaksharma.Library_Management_System.service.AuthorService;
 import jakarta.validation.Valid;
@@ -20,9 +20,15 @@ AuthorController {
     AuthorService authorService;
 
     @GetMapping("/author") //http://localhost:8080/authors/author
-    public ResponseEntity<?> getAuthor(@RequestParam("email") String email) {
-        Author author = authorService.getAuthor(email);
+    public ResponseEntity<?> getAuthorWithBooks(@RequestParam("email") String email) {
+        Author author = authorService.getAuthorWithBooks(email);
         return new ResponseEntity<>(author, HttpStatus.OK);
+    }
+
+    @GetMapping("/author-entity") //http://localhost:8080/authors/author-entity
+    public ResponseEntity<AuthorDTO> getAuthorEntity(@RequestParam("email") String email) {
+        AuthorDTO authorDTO = authorService.getAuthorEntity(email);
+        return new ResponseEntity<>(authorDTO, HttpStatus.OK);
     }
     @PostMapping("/author") //http://localhost:8080/authors/author
     public ResponseEntity<Author> addAuthor(@RequestBody Author author) {
@@ -35,8 +41,8 @@ AuthorController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
     @GetMapping("/all") //http://localhost:8080/authors/all
-    public ResponseEntity<List<GetAuthorResponse>> getAllAuthors() {
-        List<GetAuthorResponse> authorList = authorService.getAllAuthors();
+    public ResponseEntity<List<AuthorDTO>> getAllAuthors() {
+        List<AuthorDTO> authorList = authorService.getAllAuthors();
         return new ResponseEntity<>(authorList, HttpStatus.OK);
     }
 }

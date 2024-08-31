@@ -8,8 +8,13 @@ import lombok.experimental.FieldDefaults;
 @Data
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class GetAuthorResponse {
+public class AuthorDTO{
+
     String name;
 
     String email;
+
+    String createdOn;
+
+    String updatedOn;
 }
