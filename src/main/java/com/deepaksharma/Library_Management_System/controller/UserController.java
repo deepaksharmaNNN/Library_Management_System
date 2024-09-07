@@ -6,16 +6,19 @@ import com.deepaksharma.Library_Management_System.model.User;
 import com.deepaksharma.Library_Management_System.response.ApiResponse;
 import com.deepaksharma.Library_Management_System.service.UserService;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@Slf4j
 @RequestMapping("/users")
 public class UserController {
 
@@ -54,14 +57,21 @@ public class UserController {
     }
 
     // get User Details and email will be fetched from authentication
-    @GetMapping("/details") // http://localhost:8080/users/details
-    public ResponseEntity<ApiResponse> fetchUserDetails(){
+    @GetMapping("/details")
+    public ResponseEntity<ApiResponse> fetchUserDetails() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user = (User) authentication.getPrincipal();
+        String email = authentication.getName();
+        log.info("Fetching details for user: {}", email);
+
         try {
-            return ResponseEntity.ok(new ApiResponse("User Details Fetched Successfully", userService.fetchUserByEmail(user.getEmail())));
+            User user = userService.getUserByEmail(email);
+            return ResponseEntity.ok(new ApiResponse("User Details Fetched Successfully", user));
+        } catch (UsernameNotFoundException e) {
+            log.warn("User not found: {}", email, e);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse("User Not Found", null));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponse("User Not Found", null));
+            log.error("Error fetching user details: {}", email, e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ApiResponse("An error occurred", null));
         }
     }
 }

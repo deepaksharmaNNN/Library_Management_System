@@ -7,6 +7,7 @@ import com.deepaksharma.Library_Management_System.enums.UserType;
 import com.deepaksharma.Library_Management_System.mapper.UserMapper;
 import com.deepaksharma.Library_Management_System.model.User;
 import com.deepaksharma.Library_Management_System.repository.UserRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -16,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Slf4j
 public class UserService implements UserDetailsService {
 
     @Autowired
@@ -30,6 +32,16 @@ public class UserService implements UserDetailsService {
     }
     public User fetchUserByEmail(String email) {
         return userRepository.findByEmail(email);
+    }
+    public User getUserByEmail(String email) {
+        log.info("Attempting to fetch user with email: {}", email);
+        User user = userRepository.findByEmail(email);
+        if (user == null) {
+            log.warn("User not found for email: {}", email);
+            throw new UsernameNotFoundException("User not found with email: " + email);
+        }
+        log.info("User found: {}", user);
+        return user;
     }
 
     public List<GetUserResponse> fetchAllStudents() {
