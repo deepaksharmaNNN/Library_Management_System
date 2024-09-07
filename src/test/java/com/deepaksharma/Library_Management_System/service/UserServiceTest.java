@@ -38,9 +38,9 @@ public class UserServiceTest {
         // Arrange
         AddUserRequest addUserRequest = AddUserRequest.builder()
                 .userName("user")
-                .userEmail("user@gmail.com")
+                .email("user@gmail.com")
                 .build();
-        User user = UserMapper.mapUserRequestToUser(addUserRequest);
+        User user = UserMapper.mapToUser(addUserRequest);
         user.setUserType(UserType.STUDENT);
         Mockito.when(userRepository.save(Mockito.any(User.class))).thenReturn(user);
         // Act

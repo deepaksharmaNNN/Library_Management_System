@@ -13,12 +13,13 @@ import java.util.stream.Collectors;
 
 @UtilityClass
 public class UserMapper {
-    public User mapUserRequestToUser(AddUserRequest addUserRequest){
+    public User mapToUser(AddUserRequest addUserRequest){
         return User.builder()
                 .name(addUserRequest.getUserName())
-                .email(addUserRequest.getUserEmail())
+                .email(addUserRequest.getEmail())
                 .phoneNo(addUserRequest.getPhoneNumber())
-                .address(addUserRequest.getUserAddress())
+                .password(addUserRequest.getPassword())
+                .address(addUserRequest.getAddress())
                 .userStatus(UserStatus.ACTIVE)
                 .build();
     }

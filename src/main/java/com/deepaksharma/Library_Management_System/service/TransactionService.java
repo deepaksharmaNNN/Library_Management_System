@@ -38,6 +38,7 @@ public class TransactionService {
     @Value("${book.fine.per.day}")
     private Integer finePerDay;
 
+    @Transactional
     public Transaction issueBook(TransactionRequest transactionRequest) {
 
         User user = fetchUser(transactionRequest.getUserEmail());
@@ -83,6 +84,7 @@ public class TransactionService {
         return book;
     }
 
+    @Transactional
     public String returnBook(TransactionRequest transactionRequest) {
         User user = fetchUser(transactionRequest.getUserEmail());
         Book book = fetchBook(transactionRequest.getBookNo());

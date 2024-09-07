@@ -16,14 +16,14 @@ public class TransactionController {
     @Autowired
     TransactionService transactionService;
 
-    @PostMapping("/transaction") //localhost:8080/transactions/transaction
+    @PostMapping("/issue") //localhost:8080/transactions/issue
     public ResponseEntity<?> issueBook(@RequestBody @Valid TransactionRequest transactionRequest) {
         Transaction transaction = transactionService.issueBook(transactionRequest);
         return new ResponseEntity<>(transaction, HttpStatus.CREATED);
 
     }
 
-    @PutMapping("/transaction") //localhost:8080/transactions/transaction
+    @PutMapping("/return") //localhost:8080/transactions/return
     public ResponseEntity<String> returnBook(@RequestBody @Valid TransactionRequest transactionRequest) {
         String response = transactionService.returnBook(transactionRequest);
         return new ResponseEntity<>(response, HttpStatus.OK);

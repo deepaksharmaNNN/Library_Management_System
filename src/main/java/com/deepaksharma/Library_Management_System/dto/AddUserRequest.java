@@ -14,9 +14,12 @@ public class AddUserRequest {
     String userName;
 
     @NotBlank(message = "User email is mandatory")
-    String userEmail;
+    String email;
+
+    @NotBlank(message = "User password is mandatory")
+    String password;
 
     String phoneNumber;
 
-    String userAddress;
+    String address;
 }

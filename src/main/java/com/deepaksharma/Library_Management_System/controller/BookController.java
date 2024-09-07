@@ -21,20 +21,20 @@ public class BookController {
     @Autowired
     BookService bookService;
 
-    @PostMapping("/book") //http://localhost:8080/books/book
+    @PostMapping("/add/book") // http://localhost:8080/books/add/book
     public ResponseEntity<?> addBook(@RequestBody @Valid AddBookRequest addBookRequest) {
         // Add book
         Book book = bookService.addBook(addBookRequest);
         return new ResponseEntity<>(book, HttpStatus.CREATED);
     }
 
-    @GetMapping("/search") //http://localhost:8080/books/search
+    @GetMapping("/search") // http://localhost:8080/books/search
     public ResponseEntity<List<GetBookResponse>> searchAllBooks(@RequestParam(value = "title", required = false) String bookTitle
                                             , @RequestParam(value = "bookNo", required = false) String bookNo) {
         List<GetBookResponse> books = bookService.getAllBooks(bookTitle, bookNo);
         return new ResponseEntity<>(books, HttpStatus.OK);
     }
-    @DeleteMapping("/book") //http://localhost:8080/books/book
+    @DeleteMapping("/delete/book") // http://localhost:8080/books/delete/book
     public ResponseEntity<?> deleteBook(@RequestParam("bookNo") String bookNo){
         String response = bookService.deleteBook(bookNo);
         return new ResponseEntity<>(response, HttpStatus.OK);

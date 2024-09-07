@@ -32,7 +32,7 @@ public class UserControllerTest {
     public void testAddStudent_ValidRequest_ReturnsResponseCreated() {
         // Arrange
         AddUserRequest validRequest = AddUserRequest.builder()
-                .userEmail("user@gmail.com")
+                .email("user@gmail.com")
                 .userName("User Name")
                 .build();
 
