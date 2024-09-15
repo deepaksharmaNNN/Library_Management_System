@@ -2,7 +2,6 @@ package com.deepaksharma.Library_Management_System.model;
 
 import com.deepaksharma.Library_Management_System.enums.UserStatus;
 import com.deepaksharma.Library_Management_System.enums.UserType;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;

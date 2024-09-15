@@ -1,7 +1,6 @@
 package com.deepaksharma.Library_Management_System.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -32,8 +31,7 @@ public class Author implements Serializable {
     String email;
 
     @OneToMany(mappedBy = "author", fetch = FetchType.EAGER)
-//    @JsonManagedReference
-            @JsonIgnoreProperties("author")
+    @JsonIgnoreProperties("author")
     List<Book> books;
 
     @CreationTimestamp

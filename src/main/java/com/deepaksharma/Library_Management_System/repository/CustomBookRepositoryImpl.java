@@ -1,23 +1,22 @@
 package com.deepaksharma.Library_Management_System.repository;
 
-import com.deepaksharma.Library_Management_System.enums.BookType;
 import com.deepaksharma.Library_Management_System.model.Book;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Repository
+@RequiredArgsConstructor
 public class CustomBookRepositoryImpl implements CustomBookRepository{
 
-    @Autowired
-    EntityManager entityManager;
+    private final EntityManager entityManager;
 
     @Override
     public List<Book> findBookByFilters(String bookTitle, String bookNo) {

@@ -7,25 +7,30 @@ import com.deepaksharma.Library_Management_System.enums.UserType;
 import com.deepaksharma.Library_Management_System.mapper.UserMapper;
 import com.deepaksharma.Library_Management_System.model.User;
 import com.deepaksharma.Library_Management_System.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class UserService implements UserDetailsService {
 
-    @Autowired
-    UserRepository userRepository;
+
+    private final UserRepository userRepository;
+
+    private final PasswordEncoder passwordEncoder;
 
 
     public User addStudent(AddUserRequest addUserRequest) {
         User user = UserMapper.mapToUser(addUserRequest);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setUserType(UserType.STUDENT);
         user.setAuthorities("STUDENT");
         return userRepository.save(user);
@@ -92,6 +97,7 @@ public class UserService implements UserDetailsService {
     public User addAdmin(AddUserRequest addUserRequest) {
         User user = UserMapper.mapToUser(addUserRequest);
         user.setUserType(UserType.ADMIN);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setAuthorities("ADMIN,STUDENT");
         return userRepository.save(user);
     }

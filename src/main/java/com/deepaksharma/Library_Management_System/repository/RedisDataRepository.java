@@ -1,15 +1,15 @@
 package com.deepaksharma.Library_Management_System.repository;
 
 import com.deepaksharma.Library_Management_System.model.Author;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Repository;
 
 @Repository
+@RequiredArgsConstructor
 public class RedisDataRepository {
 
-    @Autowired
-    private RedisTemplate<String, Object> redisTemplate;
+    private final RedisTemplate<String, Object> redisTemplate;
 
     private final String AUTHOR_KEY = "author:";
 

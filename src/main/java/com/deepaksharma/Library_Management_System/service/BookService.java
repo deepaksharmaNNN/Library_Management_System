@@ -10,19 +10,18 @@ import com.deepaksharma.Library_Management_System.model.Author;
 import com.deepaksharma.Library_Management_System.model.Book;
 import com.deepaksharma.Library_Management_System.repository.BookRepository;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
 
 @Service
+@RequiredArgsConstructor
 public class BookService {
 
-    @Autowired
-    AuthorService authorService;
+    private final AuthorService authorService;
 
-    @Autowired
-    BookRepository bookRepository;
+    private final BookRepository bookRepository;
 
     public Book addBook(@Valid AddBookRequest addBookRequest) {
         // Add book

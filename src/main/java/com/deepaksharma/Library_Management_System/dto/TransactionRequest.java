@@ -1,6 +1,5 @@
 package com.deepaksharma.Library_Management_System.dto;
 
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import lombok.experimental.FieldDefaults;

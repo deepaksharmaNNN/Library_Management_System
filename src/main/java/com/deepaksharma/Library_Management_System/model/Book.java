@@ -3,7 +3,6 @@ package com.deepaksharma.Library_Management_System.model;
 import com.deepaksharma.Library_Management_System.enums.BookStatus;
 import com.deepaksharma.Library_Management_System.enums.BookType;
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;

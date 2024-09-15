@@ -6,8 +6,8 @@ import com.deepaksharma.Library_Management_System.model.User;
 import com.deepaksharma.Library_Management_System.response.ApiResponse;
 import com.deepaksharma.Library_Management_System.service.UserService;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -19,11 +19,11 @@ import java.util.List;
 
 @RestController
 @Slf4j
+@RequiredArgsConstructor
 @RequestMapping("/users")
 public class UserController {
 
-    @Autowired
-    UserService userService;
+    private final UserService userService;
     //Add Student into the Database
     @PostMapping("/add/student") // http://localhost:8080/users/add/student
     public ResponseEntity<User> addStudent(@RequestBody @Valid AddUserRequest addUserRequest){

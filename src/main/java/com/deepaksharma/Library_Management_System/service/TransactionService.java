@@ -11,7 +11,7 @@ import com.deepaksharma.Library_Management_System.model.Transaction;
 import com.deepaksharma.Library_Management_System.model.User;
 import com.deepaksharma.Library_Management_System.repository.TransactionRepository;
 import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -21,16 +21,15 @@ import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 @Service
+@RequiredArgsConstructor
 public class TransactionService {
 
-    @Autowired
-    TransactionRepository transactionRepository;
 
-    @Autowired
-    UserService userService;
+    private final TransactionRepository transactionRepository;
 
-    @Autowired
-    BookService bookService;
+    private final UserService userService;
+
+    private final BookService bookService;
 
     @Value("${book.valid.days}")
     private Integer validDays;

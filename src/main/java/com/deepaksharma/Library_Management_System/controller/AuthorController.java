@@ -4,7 +4,7 @@ import com.deepaksharma.Library_Management_System.dto.AuthorDTO;
 import com.deepaksharma.Library_Management_System.model.Author;
 import com.deepaksharma.Library_Management_System.service.AuthorService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,12 +12,12 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/authors")
 public class
 AuthorController {
 
-    @Autowired
-    AuthorService authorService;
+    private final AuthorService authorService;
 
     @GetMapping("/get/author") // http://localhost:8080/authors/get/author
     public ResponseEntity<?> getAuthorWithBooks(@RequestParam("email") String email) {

@@ -5,8 +5,8 @@ import com.deepaksharma.Library_Management_System.mapper.AuthorMapper;
 import com.deepaksharma.Library_Management_System.model.Author;
 import com.deepaksharma.Library_Management_System.repository.AuthorRepository;
 import com.deepaksharma.Library_Management_System.repository.RedisDataRepository;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,25 +14,25 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class AuthorService {
 
-    @Autowired
-    AuthorRepository authorRepository;
 
-    @Autowired
-    RedisDataRepository redisDataRepository;
+    private final AuthorRepository authorRepository;
+
+    private final RedisDataRepository redisDataRepository;
 
     public Author getAuthorWithBooks(String email) {
         Author author = redisDataRepository.getAuthorFromRedis(email);
         if(author != null){
-            log.info("Author found in Redis");
+            log.info("Author fetched from Redis");
             return author;
         }
         author = authorRepository.findByEmail(email);
         if(author != null){
-            log.info("Author found in DB");
+            log.info("Author fetched from DB {}", author);
             redisDataRepository.saveAuthorToRedis(author);
-            log.info("Author saved to Redis");
+            log.info("Author saved to Redis {}", author);
             return author;
         }
         return null;
